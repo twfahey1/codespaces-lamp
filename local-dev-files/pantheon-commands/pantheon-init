@@ -1,0 +1,19 @@
+echo "Setting up for Pantheon integration"
+# Prompt for machine token
+echo -n Enter a machine token: 
+read -s machine_token
+echo
+
+terminus auth:login --machine-token=$machine_token
+# Prompt for site name
+echo Enter site machine name:
+read site_name
+
+# Prompt for default environment
+echo Default environment to clone from:
+read default_environment
+
+sudo cat > .devcontainer/local-dev-files/site-config.yml <<EOF
+site_name: $site_name
+default_environment: $default_environment
+EOF

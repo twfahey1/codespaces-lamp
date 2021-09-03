@@ -1,0 +1,2 @@
+composer create-project pantheon-systems/terminus /workspaces/utilities/terminus \
+    && echo -e '\nPATH="/workspaces/utilities/terminus/bin:$PATH"' >> /home/vscode/.bashrc
