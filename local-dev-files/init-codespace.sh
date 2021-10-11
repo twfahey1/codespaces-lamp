@@ -16,6 +16,11 @@ DRUSH_SOURCE_SUFFIX=':$PATH"'
 echo "$(echo $DRUSH_SOURCE_PREFIX)$(echo $DRUSH_SOURCE_SUFFIX)" >> ~/.bashrc
 source ~/.bashrc
 
+# Setup wp cli
+curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+chmod +x wp-cli.phar
+sudo mv wp-cli.phar /usr/local/bin/wp
+
 # Setup terminus
 pantheon-install-terminus > /dev/null 2>&1
 
@@ -27,9 +32,9 @@ sudo cat > /etc/apache2/sites-available/000-default.conf <<EOF
 <VirtualHost *:8080>
 
   ServerAdmin webmaster@localhost
-  DocumentRoot $PROJECT_NAME/web/
+  DocumentRoot $PROJECT_NAME/
 
-  <Directory $PROJECT_NAME/web/>
+  <Directory $PROJECT_NAME/>
     AllowOverride All
     Require all granted
   </Directory>
@@ -45,6 +50,11 @@ sudo service mysql start
 bash .devcontainer/local-dev-files/mysql-init.sh
 # Copy over local settings to Drupal codebase.
 cp .devcontainer/local-dev-files/settings.local.php web/sites/default/settings.local.php
+
+# Copy over wordpress settings
+cp .devcontainer/local-dev-files/wp-config-local.php wp-config-local.php
+
+
 # Copy over xdebug config
 sudo cp .devcontainer/local-dev-files/20-xdebug.ini /etc/php/7.4/cli/conf.d/20-xdebug.ini
 # Start up apache.

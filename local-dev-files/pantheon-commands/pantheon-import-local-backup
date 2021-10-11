@@ -1,2 +1,10 @@
 BACKUP_FOLDER=".devcontainer/local-dev-files/pantheon_db_dumps"
-vendor/bin/drush sqlc < $BACKUP_FOLDER/db.sql
+FILE="$(echo $CODESPACE_VSCODE_FOLDER)/wp-settings.php"
+
+if test -f "$FILE"; then
+    wp db import .devcontainer/local-dev-files/pantheon_db_dumps/db.sql
+else
+    vendor/bin/drush sqlc < $BACKUP_FOLDER/db.sql
+fi
+
+
