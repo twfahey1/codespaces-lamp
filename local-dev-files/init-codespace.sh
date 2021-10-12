@@ -62,5 +62,5 @@ sudo apachectl start
 
 sudo apachectl restart
 
-# Add pmu ssh key for usage.
-echo "$PMU_SSH_KEY" > /home/vscode/.ssh/id_rsa && chmod 600 /home/vscode/.ssh/id_rsa
+# Add ssh key for usage.
+echo "$SSH_KEY" > /home/vscode/.ssh/id_rsa && chmod 600 /home/vscode/.ssh/id_rsa
