@@ -1,0 +1,44 @@
+echo "Setting up for Pantheon integration"
+read -p "Reinitialize terminus by entering a new machine token? (y/n)" -n 1 -r
+echo    # (optional) move to a new line
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+    # Prompt for machine token
+    echo -n Enter a machine token: 
+    read -s machine_token
+    echo
+    terminus auth:login --machine-token=$machine_token
+
+fi
+
+# Prompt for site name
+echo Enter site machine name:
+read site_name
+
+# Prompt for default environment
+echo Default environment to clone from:
+read site_environment
+
+# Get the site framework
+framework=$(terminus site:info $site_name --field="Framework")
+
+sudo cat > /workspaces/$(echo $RepositoryName)/.devcontainer/site-config.json <<EOF
+{
+    "site_name": "$site_name",
+    "site_environment": "$site_environment",
+    "framework": "$framework"
+}
+
+EOF
+
+# Print confirmation
+echo "Initialized a site-config.json for $site_name.$site_environment - Framework: $framework"
+
+read -p "Do you need to copy over Drupal / WP config files, such as settings.local.php / wp-config-local.php? (y/n)" -n 1 -r
+echo    # (optional) move to a new line
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+    echo "Going to initialize for $framework"
+    $(/workspaces/$(echo $RepositoryName)/.devcontainer/src/$framework/init-$framework.sh)
+
+fi

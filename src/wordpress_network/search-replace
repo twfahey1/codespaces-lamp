@@ -1,0 +1,7 @@
+source /workspaces/$(echo $RepositoryName)/.devcontainer/src/pantheon-commands/common_functions
+
+SITE_NAME=$(get_site_name_from_config)
+SITE_ENV=$(get_site_env_from_config)
+PANTHEON_SITE_URL="$SITE_ENV-$SITE_NAME.pantheonsite.io"
+echo "Going to do search-replace of $PANTHEON_SITE_URL with $CODESPACE_URL...\n"
+wp search-replace $PANTHEON_SITE_URL $CODESPACE_URL --network

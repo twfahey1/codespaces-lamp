@@ -1,0 +1,22 @@
+source /workspaces/$(echo $RepositoryName)/.devcontainer/src/pantheon-commands/common_functions
+
+BACKUP_FOLDER="/workspaces/$(echo $RepositoryName)/.devcontainer/pantheon_db_dumps"
+FILE="$(echo $CODESPACE_VSCODE_FOLDER)/wp-settings.php"
+PATH_TO_BACKUP="$BACKUP_FOLDER/db.sql"
+FRAMEWORK=$(get_site_framework_from_config)
+
+if [ "$FRAMEWORK" = "wordpress" ]; then
+    wp db import $PATH_TO_BACKUP
+fi
+
+if [ "$FRAMEWORK" = "drupal" ]; then
+    drush sqlc < $PATH_TO_BACKUP
+    drush cc all
+fi
+
+if [ "$FRAMEWORK" = "drupal8" ]; then
+    drush sqlc < $PATH_TO_BACKUP
+    drush cr
+fi
+
+

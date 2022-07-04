@@ -1,0 +1,10 @@
+source /workspaces/$(echo $RepositoryName)/.devcontainer/src/pantheon-commands/common_functions
+
+SITE_NAME=$(get_site_name_from_config)
+SITE_ENV=$(get_site_env_from_config)
+BACKUP_FOLDER="/workspaces/$(echo $RepositoryName)/.devcontainer/pantheon_db_dumps"
+mkdir -p $BACKUP_FOLDER
+terminus backup:create ${SITE_NAME}.${SITE_ENV} --element=database
+terminus backup:get ${SITE_NAME}.${SITE_ENV} --element=database | xargs curl -o $BACKUP_FOLDER/db.sql.gz
+gunzip -fk $BACKUP_FOLDER/db.sql.gz
+pantheon-db-import-local-backup

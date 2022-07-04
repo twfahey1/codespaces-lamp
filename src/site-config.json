@@ -1,0 +1,6 @@
+{
+    "site_name": "pantheon-codespaces-drupal-example",
+    "site_environment": "dev",
+    "framework": "drupal8"
+}
+

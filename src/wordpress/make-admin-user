@@ -1,0 +1,2 @@
+wp user create admin_tester admin_tester@example.com --role=administrator
+echo "User email: admin_tester@example.com"

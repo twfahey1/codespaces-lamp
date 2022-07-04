@@ -1,0 +1,1 @@
+bash /workspaces/$(echo $RepositoryName)/.devcontainer/src/wordpress_network/make-admin-user
