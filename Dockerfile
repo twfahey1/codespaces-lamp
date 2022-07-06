@@ -18,8 +18,10 @@ RUN apt-get install php7.4-xdebug
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Install terminus.
-RUN mkdir /utilities && composer create-project pantheon-systems/terminus /utilities/terminus \
-    && echo -e '\nPATH="/utilities/terminus/bin:$PATH"' >> /home/vscode/.bashrc
+RUN mkdir /utilities
+COPY utilities/terminus /utilities
+RUN chmod +x /utilities/terminus
+RUN echo -e '\nPATH="/utilities/:$PATH"' >> /home/vscode/.bashrc
 
 # Configure Apache.
 RUN echo "Listen 8080" >> /etc/apache2/ports.conf && \
